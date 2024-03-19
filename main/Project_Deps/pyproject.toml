@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "ECE 501 Raspberry Pi Image Processing and Encryption"
+version = "0.1.2"
+description = "Image Encryption on Identified objects"
+authors = ["Shaqueir Tardif <shaqtardif@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+opencv-python = "==4.5.3.56"
+pillow = "^8.1.0"
+cffi = "==1.16.0rc1"
+cryptography = "^3.4.7"
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
