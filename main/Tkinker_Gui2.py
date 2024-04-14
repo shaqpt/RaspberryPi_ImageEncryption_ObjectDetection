@@ -1,8 +1,19 @@
 import tkinter as tk
 import cv2
 from PIL import Image, ImageTk
+import tkinter.messagebox as mbox
 import numpy as np
 import tflite_runtime.interpreter as tflite
+import os
+import encrypt_decrypt
+
+# Global variables
+captured_image = None
+video_stopped = False
+output_directory = "captured_images"
+
+# Create directory if it doesn't exist
+os.makedirs(output_directory, exist_ok=True)
 
 # Load TensorFlow Lite model and allocate tensors.
 interpreter = tflite.Interpreter(model_path="efficientdet_lite0.tflite")
@@ -57,21 +68,45 @@ def detect_objects(frame):
     return frame
 
 def update_video():
-    ret, frame = cap.read()
-    if ret:
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Convert to RGB
-        frame = detect_objects(frame)  # Detect objects
-        frame = Image.fromarray(frame)
-        frame = ImageTk.PhotoImage(frame)
-        label.configure(image=frame)
-        label.image = frame
-    label.after(10, update_video)
+    global video_stopped, captured_image
+
+    if not video_stopped:
+        ret, frame = cap.read()
+        if ret:
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Convert to RGB
+            frame = detect_objects(frame)  # Detect objects
+            frame = Image.fromarray(frame)
+            frame = ImageTk.PhotoImage(frame)
+            label.configure(image=frame)
+            label.image = frame
+            label.after(10, update_video)
+    elif captured_image is not None:
+        label.configure(image=captured_image)
+        label.image = captured_image
 
 def capture_image():
+    global video_stopped, captured_image
     ret, frame = cap.read()
     if ret:
-        cv2.imwrite("captured_image.jpg", cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-        print("Image captured and saved as captured_image.jpg")
+        # Draw detected objects on the frame
+        frame_with_boxes = detect_objects(frame)
+
+        # Convert the frame with boxes to RGB and create an Image object
+        captured_image = cv2.cvtColor(frame_with_boxes, cv2.COLOR_BGR2RGB)
+        captured_image = Image.fromarray(captured_image)
+
+        # Save the image to a file
+        captured_image.save(os.path.join(output_directory, "captured_image1.png"))
+
+        # Convert the captured image to ImageTk format for display
+        captured_image = ImageTk.PhotoImage(captured_image)
+        video_stopped = True
+
+def restart_video():
+    global video_stopped, captured_image
+    video_stopped = False
+    captured_image = None
+    update_video()
 
 def stop_program():
     # Release the webcam and close the OpenCV window
@@ -79,13 +114,35 @@ def stop_program():
     cv2.destroyAllWindows()
     root.destroy()
 
+def encrypt_image():
+    global captured_image
+    encrypt_decrypt.encrypt_image(os.path.join(output_directory, "captured_image1.png"))
+    #mbox.showinfo("Encryption", "Image encrypted successfully.")
+
+def decrypt_image():
+    global captured_image
+    encrypt_decrypt.decrypt_image(os.path.join(output_directory, "captured_image1.png"))
+    mbox.showinfo("Decryption", "Image decrypted successfully.")
+
 # Button to capture image
 capture_button = tk.Button(root, text="Capture Image", command=capture_image)
 capture_button.pack(side=tk.LEFT, padx=10, pady=10)
 
+# Button to restart video feed
+restart_button = tk.Button(root, text="Restart Video", command=restart_video)
+restart_button.pack(side=tk.LEFT, padx=10, pady=10)
+
 # Button to stop the program
 stop_button = tk.Button(root, text="Stop Program", command=stop_program)
 stop_button.pack(side=tk.RIGHT, padx=10, pady=10)
+
+# Button to encrypt image
+encrypt_button = tk.Button(root, text="Encrypt Image", command=encrypt_image)
+encrypt_button.pack(side=tk.TOP, padx=10, pady=10)
+
+# Button to decrypt image
+decrypt_button = tk.Button(root, text="Decrypt Image", command=decrypt_image)
+decrypt_button.pack(side=tk.TOP, padx=10, pady=10)
 
 # Start video update process
 update_video()

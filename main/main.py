@@ -8,7 +8,7 @@
 import cv2
 import tkinter as tk
 from tkinter import ttk
-from cryptography.fernet import Fernet
+#from cryptography.fernet import Fernet
 import numpy as np
 
 # Initialize webcam

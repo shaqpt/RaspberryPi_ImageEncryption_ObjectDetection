@@ -1,9 +1,11 @@
 import tkinter as tk
 import cv2
 from PIL import Image, ImageTk
+import tkinter.messagebox as mbox
 import numpy as np
 import tflite_runtime.interpreter as tflite
 import os
+import encrypt_decrypt
 
 # Global variables
 captured_image = None
@@ -112,6 +114,25 @@ def stop_program():
     cv2.destroyAllWindows()
     root.destroy()
 
+def encrypt_image():
+    global video_stopped, encrypted_image
+    # Encrypt the captured image
+    encrypt_decrypt.encrypt_image(os.path.join(output_directory, "captured_image1.png"))
+    
+    # Load the encrypted image
+    encrypted_image = Image.open(os.path.join(output_directory, "captured_encrypted.png"))
+    encrypted_image = ImageTk.PhotoImage(encrypted_image)
+    
+    # Display the encrypted image on the screen
+    label.configure(image=encrypted_image)
+    label.image = encrypted_image
+    #mbox.showinfo("Encryption", "Image encrypted successfully.")
+
+def decrypt_image():
+    global captured_image
+    encrypt_decrypt.decrypt_image(os.path.join(output_directory, "captured_image1.png"))
+    mbox.showinfo("Decryption", "Image decrypted successfully.")
+
 # Button to capture image
 capture_button = tk.Button(root, text="Capture Image", command=capture_image)
 capture_button.pack(side=tk.LEFT, padx=10, pady=10)
@@ -123,6 +144,14 @@ restart_button.pack(side=tk.LEFT, padx=10, pady=10)
 # Button to stop the program
 stop_button = tk.Button(root, text="Stop Program", command=stop_program)
 stop_button.pack(side=tk.RIGHT, padx=10, pady=10)
+
+# Button to encrypt image
+encrypt_button = tk.Button(root, text="Encrypt Image", command=encrypt_image)
+encrypt_button.pack(side=tk.TOP, padx=10, pady=10)
+
+# Button to decrypt image
+decrypt_button = tk.Button(root, text="Decrypt Image", command=decrypt_image)
+decrypt_button.pack(side=tk.TOP, padx=10, pady=10)
 
 # Start video update process
 update_video()
