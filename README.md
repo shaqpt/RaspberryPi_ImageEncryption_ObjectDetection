@@ -13,7 +13,7 @@ The live video feed is obtained through a USB Webcam device connected to the Ras
 Logitech C920s PRO HD WEBCAM (https://www.logitech.com/en-us/products/webcams/c920s-pro-hd-webcam.960-001257.html)
 ```
 
-TensorFlow Lite Project
+## TensorFlow Lite Project
 ```
 https://github.com/tensorflow/examples/tree/fff4bcda7201645a1efaea4534403daf5fc03d42
 ```
@@ -23,6 +23,8 @@ Similarly, a decryption method is also utilized to revert the encrypted image ba
 
 The idea behind this project is to be able to hide information from an image that may be classified autonomously. For example, if there is a car in a video, the idea is to be able to hide the license plate from being viewable in an effort to protect the identity and security of the car owner.
 
+
+### Future Expansions
 This is a project that will be expanded on later on, but this is the initial starting point of the project. In future expansions, I'd like to trigger the encryption functions autonomously when specific objects are detected. I'd also like to get this program and all of its functionality to run in real-time, keeping in mind the computational limitations of the Raspberry Pi device. In this current version of the project, the encryption and decryption methods do not run while the live video feed is running. The encryption/decryption methods only run on a still image.
 
 
