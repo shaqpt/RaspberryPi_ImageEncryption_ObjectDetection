@@ -50,7 +50,7 @@ https://www.youtube.com/watch?v=NPXBRX7N3ec
    ```
    python3 main.py
    ```
-6) GUI Window with Live Video Feed will appear. You'll then have the followin options:
+6) GUI Window with Live Video Feed will appear. You'll then have the following options:
    ```
     Capture - captures a screenshot of the live video feed and the detected object in the image
     Encrypt - encrypts the entire captured image (saves output to file and displays output to GUI window)
