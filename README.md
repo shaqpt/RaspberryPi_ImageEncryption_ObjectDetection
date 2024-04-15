@@ -15,7 +15,7 @@ Logitech C920s PRO HD WEBCAM (https://www.logitech.com/en-us/products/webcams/c9
 
 TensorFlow Lite Project
 ```
-
+https://github.com/tensorflow/examples/tree/fff4bcda7201645a1efaea4534403daf5fc03d42
 ```
 
 An encryption method, inspired by AES encryption schemes, is utilized to encrypt captured images extracted from the live feed. The encryption method jumbles the pixels within the image to make the image unintelligible.
