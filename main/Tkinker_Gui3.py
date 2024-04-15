@@ -114,6 +114,7 @@ def stop_program():
     cv2.destroyAllWindows()
     root.destroy()
 
+# WORKS -- encrypts the entire image
 def encrypt_image():
     global video_stopped, encrypted_image
     # Encrypt the captured image
@@ -130,8 +131,16 @@ def encrypt_image():
 
 def decrypt_image():
     global captured_image
-    encrypt_decrypt.decrypt_image(os.path.join(output_directory, "captured_image1.png"))
-    mbox.showinfo("Decryption", "Image decrypted successfully.")
+    encrypt_decrypt.decrypt_image(os.path.join(output_directory, "captured_encrypted.png"))
+    
+    # Load the decrypted image
+    decrypted_image = Image.open(os.path.join(output_directory, "captured_decrypted.png"))
+    decrypted_image = ImageTk.PhotoImage(decrypted_image)
+    
+    # Display the decrypted image on the screen
+    label.configure(image=decrypted_image)
+    label.image = decrypted_image
+    #mbox.showinfo("Decryption", "Image decrypted successfully.")
 
 # Button to capture image
 capture_button = tk.Button(root, text="Capture Image", command=capture_image)
