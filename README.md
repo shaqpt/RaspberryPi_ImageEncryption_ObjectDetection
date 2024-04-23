@@ -1,6 +1,6 @@
 # RaspberryPi_ImageEncryption_ObjectDetection
 
-This project utilizes a Tensorflow deep learning framework for on-device inference. This framework is versatile in the fact that it can be deployed remotely using a variety of different devices with varuous computational abilities such as mobile devices. For this application, the framework is used within a Raspberry Pi application. The TensorFlow Lite framework allows for object detection algorithm to be displayed as a live video feed coninously displays. This oject detection algorithm runs in real-time throughout the live video feed.
+This project utilizes a Tensorflow deep learning framework for on-device inference. This framework is versatile in the fact that it can be deployed remotely using a variety of different devices with various computational abilities such as mobile devices. For this application, the framework is used within a Raspberry Pi application. The TensorFlow Lite framework allows for an object detection algorithm to run in real-time throughout a live video feed.
 
 ## Raspberry Pi model in use:
 ```
